@@ -48,6 +48,4 @@ contract Token{
     return true;
   }
   
-
-
 }
