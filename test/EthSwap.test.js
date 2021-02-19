@@ -63,6 +63,31 @@ contract('EthSwap', ([deployer, investor])=>{
       assert.equal(event.account, investor)
     })
   })
-  
+  describe('sellTokens()', async()=>{
+    let result;
+
+    before(async ()=>{
+      await token.approve(ethSwap.address, tokens('100'), {from: investor})
+      result = await ethSwap.sellTokens(tokens('100'), {from: investor})
+    })
+    it('Allows user to instantly sell tokens to ethSwap fom a fixed price', async()=>{
+      let investorBalance = await token.balanceOf(investor);
+      assert.equal(investorBalance.toString(), tokens('0'))
+
+      let ethSwapBalance;
+      ethSwapBalance = await token.balanceOf(ethSwap.address);
+      assert.equal(ethSwapBalance.toString(), tokens('1000000'))
+
+      const event = result.logs[0].args
+      assert.equal(event.account, investor)
+
+      //failure: investor not enough tokens
+
+      await ethSwap.sellTokens(tokens('500'), {
+        from:investor
+      }).should.be.rejected;
+    })
+  })
+
 
 })
