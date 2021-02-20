@@ -31,6 +31,15 @@ class App extends Component {
     }else{
       window.alert('token contract not deployed to network')
     }
+
+    // load EthSwap
+    const ethSwapData = EthSwap.networks[networkId]
+    if(ethSwapData){
+      const ethSwap = new web3.eth.Contract(EthSwap.abi, ethSwapData.address)
+      this.setState({ethSwap})
+    }else{
+      window.alert('EthSwap contract not deployed to network')
+    }
   }
   async loadWeb3(){
     if(window.ethereum){
@@ -49,6 +58,7 @@ class App extends Component {
     this.state = {
       account:'',
       token:{},
+      ethSwap:{},
       ethBalance:'',
       tokenBalance:''
     }
