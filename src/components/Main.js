@@ -15,7 +15,9 @@ class Main extends Component {
           <div className="card-body">
             <form className="mb-3" onSubmit={(e)=>{
               e.preventDefault()
-              
+              let ethAmount = this.input.value.toString()
+              ethAmount = window.web3.utils.toWei(ethAmount, 'Ether')
+              this.props.buyTokens(ethAmount)
             }}>
               <div>
                 <label className="float-left"><b>Input</b></label>

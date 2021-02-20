@@ -56,6 +56,17 @@ class App extends Component {
       window.alert('non ethereum browser detected')
     }
   }
+
+  buyTokens = (ethAmount) =>{
+    this.setState({loading:true})
+    this.state.ethSwap.methods.buyTokens().send({
+      from: this.state.account, value: ethAmount
+    }).on('transactionHash', (hash)=>{
+      this.setState({loading:false})
+    })
+
+  }
+
   constructor(props){
     super(props)
     this.state = {
@@ -73,6 +84,7 @@ class App extends Component {
       content = <p id="loader" className="text-center">Loading...</p>
     }else{
       content = <Main 
+                  buyTokens = {this.buyTokens}
                   ethBalance={this.state.ethBalance}
                   tokenBalance={this.state.tokenBalance}
                 />
