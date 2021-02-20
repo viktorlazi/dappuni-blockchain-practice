@@ -43,6 +43,7 @@ class App extends Component {
       window.alert('EthSwap contract not deployed to network')
     }
   }
+
   async loadWeb3(){
     if(window.ethereum){
       window.web3 = new Web3(window.ethereum)
@@ -64,22 +65,24 @@ class App extends Component {
       ethBalance:'',
       tokenBalance:'',
       loading:true
-    }
-    
+    } 
   }
   render() {
     let content
     if(this.state.loading){
       content = <p id="loader" className="text-center">Loading...</p>
     }else{
-      content = <Main/>
+      content = <Main 
+                  ethBalance={this.state.ethBalance}
+                  tokenBalance={this.state.tokenBalance}
+                />
     }
     return (
       <div>
         <Navbar account = {this.state.account} />
         <div className="container-fluid mt-5">
           <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
+            <main role="main" className="col-lg-12 ml-auto mr-auto" style={{maxWidth:'600px'}}>
               <div className="content mr-auto ml-auto">
                 {content}
               </div>
